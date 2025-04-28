@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map</title>
+    <!-- Include Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Include Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        /* Style for the map container */
+        #map {
+            height: 100vh; /* Set the height of the map to full screen */
+            width: 100%; /* Set the width of the map to full screen */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div> <!-- Map container -->
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([12.9335, 77.577], 15); // Set the initial center and zoom level
+
+        // Add a tile layer to the map
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Initialize the marker at a starting position
+        var marker = L.marker([12.9335, 77.577]).addTo(map)
+            .bindPopup('<b>Current Location</b>').openPopup();
+
+        // Function to update marker position within the specified range
+        function updateMarkerPosition() {
+            // Generate random latitude and longitude within the specified range
+            var newLat = 12.933 - 0.0005 + Math.random() * 0.001; // Generate between 12.9325 and 12.9335
+            var newLng = 77.5765 - 0.0005 + Math.random() * 0.001; // Generate between 77.576 and 77.5775
+
+            // Update marker position
+            marker.setLatLng([newLat, newLng]);
+            marker.bindPopup('<b>Current Location</b>').openPopup(); // Update popup content
+
+            // Call the function recursively after a random time interval (between 1 and 5 seconds)
+            setTimeout(updateMarkerPosition, Math.random() * 4000 + 1000);
+        }
+
+        // Call the function to start updating marker position
+        updateMarkerPosition();
+    </script>
+</body>
+</html>
